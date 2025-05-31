@@ -51,7 +51,8 @@ def main(log: str = "INFO", config_path: Path | None = None) -> None:
         # a non-insignificant amount of time.
         last_backup_time = monotonic()
 
-        target = config.target / config.game_title / datetime.now(tz=None).isoformat()
+        # Replace colon with period to avoid filename issues on Windows
+        target = config.target / config.game_title / datetime.now(tz=None).isoformat().replace(":", ".")
         logger.info("Changes detected, making backup at '%s'", target)
         _ = copytree(config.source, target)
 
