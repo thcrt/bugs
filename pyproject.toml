@@ -7,6 +7,7 @@ authors = [
     { name = "thcrt", email = "110127860+thcrt@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
+license = "MPL-2.0"
 
 dependencies = [
     "platformdirs>=4.3.8",
