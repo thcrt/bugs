@@ -1,0 +1,17 @@
+# Build artifacts
+build/
+dist/
+_version.py
+
+# Installed dependencies
+.venv/
+
+# Caches
+.task/
+.*_cache/
+__pycache__/
+*.py[oc]
+
+# Instance-specific data and config
+config.toml
+instance/
