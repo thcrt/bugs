@@ -18,8 +18,7 @@ class Config:
 
     sources_init: InitVar[list[str]] = field(metadata={"name": "sources"})
     sources: list[Path] = field(init=False)
-    """The files or directories to be included in a backup. POSIX-style globbing with `*` and `**`
-    is supported."""
+    """The files or directories to be included in a backup."""
 
     limit: int = 50
     """The maximum number of backups to keep. If this limit is reached and a new backup is
