@@ -36,9 +36,7 @@ def main(log: str = "INFO", config_path: Path | None = None) -> None:
     # we ever start saving persistent state information, but that seems like overkill for now.
     last_backup_time = 0
 
-    for _changes in watch(
-        *config.sources,
-    ):
+    for _changes in watch(config.source):
         if monotonic() < last_backup_time + config.min_interval:
             # Too early, the minimum interval hasn't elapsed yet!
             continue

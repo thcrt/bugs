@@ -16,16 +16,16 @@ class Config:
     """The name of the game. This will determine the name of the subdirectory of `target` in which
     backups will be stored."""
 
-    sources_init: InitVar[list[str]] = field(metadata={"name": "sources"})
-    sources: list[Path] = field(init=False)
-    """The files or directories to be included in a backup."""
+    sources_init: InitVar[str] = field(metadata={"name": "source"})
+    source: Path = field(init=False)
+    """The file or directory to be backed up."""
 
     limit: int = 50
     """The maximum number of backups to keep. If this limit is reached and a new backup is
     triggered, the oldest backup will be deleted."""
 
     min_interval: int = 10
-    """The minimum interval between backups, in seconds. If a change is detected in a source, and
+    """The minimum interval between backups, in seconds. If a change is detected in the source, and
     the time elapsed since the most recent backup began is less than this many seconds, that change
     will not trigger a new backup."""
 
@@ -42,10 +42,10 @@ class Config:
 
     def __post_init__(
         self,
-        sources_init: list[str],
+        source_init: str,
         target_init: str,
     ):
-        self.sources = [Path(source) for source in sources_init]
+        self.source = Path(source_init)
         self.target = Path(target_init)
 
 
