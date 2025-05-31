@@ -44,6 +44,7 @@ jobs:
           --file-description="BUGS: BackUp Game Saves"
           --copyright="2025 Theo Court. Licensed under the Mozilla Public License v2.0."
           --onefile
+          --assume-yes-for-downloads
           --python-flag=-m
           ./src/bugs
 
