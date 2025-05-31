@@ -1,7 +1,11 @@
 # Build artifacts
 build/
+*.build
 dist/
+*.dist
 _version.py
+*.bin
+nuitka-crash-report.xml
 
 # Installed dependencies
 .venv/

@@ -10,6 +10,8 @@ env:
     sh: echo {{ .PROJECT_VERSION }} | tr '+' '.'
   TAG_BRANCH:
     sh: git branch --show-current
+  LATEST_VERSION:
+    sh: echo {{ .PROJECT_VERSION }} | grep -Eo '[0-9]+(\.[0-9]+){1,3}' | head -1
 
 tasks:
   default:
@@ -69,3 +71,21 @@ tasks:
       ./build/
       ./**/__pycache__/
       ./**/_version.py
+      ./*.build
+      ./*.*-build
+      ./*.dist
+      ./*.bin
+      ./nuitka-crash-report.xml
+
+  build:
+    desc: Build a binary executable
+    deps: [check]
+    cmd: >
+      uv run nuitka
+      --product-name=BUGS
+      --product-version={{ .LATEST_VERSION }}
+      --file-description="BUGS: BackUp Game Saves"
+      --copyright="2025 Theo Court. Licensed under the Mozilla Public License v2.0."
+      --onefile
+      --python-flag=-m
+      ./src/bugs
