@@ -13,24 +13,28 @@ logger = getLogger(__name__)
 @dataclass
 class Config:
     game_title: str
-    """The name of the game. This will determine the name of the subdirectory
-    of `target` in which backups will be stored."""
+    """The name of the game. This will determine the name of the subdirectory of `target` in which
+    backups will be stored."""
 
-    sources: list[Path] = field(init=False)
     sources_init: InitVar[list[str]] = field(metadata={"name": "sources"})
-    """The files or directories to be included in a backup. POSIX-style
-    globbing with `*` and `**` is supported."""
+    sources: list[Path] = field(init=False)
+    """The files or directories to be included in a backup. POSIX-style globbing with `*` and `**`
+    is supported."""
 
     limit: int = 50
-    """The maximum number of backups to keep. If this limit is reached and a
-    new backup is triggered, the oldest backup will be deleted."""
+    """The maximum number of backups to keep. If this limit is reached and a new backup is
+    triggered, the oldest backup will be deleted."""
 
-    target: Path = field(init=False)
+    min_interval: int = 10
+    """The minimum interval between backups, in seconds. If a change is detected in a source, and
+    the time elapsed since the most recent backup began is less than this many seconds, that change
+    will not trigger a new backup."""
+
     target_init: InitVar[str] = field(
         default=user_data_dir("bugs", appauthor=False), metadata={"name": "target"}
     )
-    """The directory in which backups will be stored. Defaults to
-    platform-specific data directory:
+    target: Path = field(init=False)
+    """The directory in which backups will be stored. Defaults to platform-specific data directory:
 
     - `/home/<user>/.local/share/bugs` (Unix)
     - `/Users/<user>/Library/Application Support/bugs` (macOS)
