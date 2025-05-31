@@ -16,13 +16,6 @@ class Config:
     """The name of the game. This will determine the name of the subdirectory
     of `target` in which backups will be stored."""
 
-    watch: Path = field(init=False)
-    watch_init: InitVar[str] = field(metadata={"name": "watch"})
-    """A file guaranteed to have its last modified time updated whenever the
-    save is changed. This will determine whether a backup is triggered.
-    Doesn't necessarily have to be included in `sources`, although it
-    typically will be."""
-
     sources: list[Path] = field(init=False)
     sources_init: InitVar[list[str]] = field(metadata={"name": "sources"})
     """The files or directories to be included in a backup. POSIX-style
@@ -31,10 +24,6 @@ class Config:
     limit: int = 50
     """The maximum number of backups to keep. If this limit is reached and a
     new backup is triggered, the oldest backup will be deleted."""
-
-    interval: int = 10
-    """The interval in seconds between successive polls of the last modified
-    time of the file set by `watch`."""
 
     target: Path = field(init=False)
     target_init: InitVar[str] = field(
@@ -50,11 +39,9 @@ class Config:
 
     def __post_init__(
         self,
-        watch_init: str,
         sources_init: list[str],
         target_init: str,
     ):
-        self.watch = Path(watch_init)
         self.sources = [Path(source) for source in sources_init]
         self.target = Path(target_init)
 
