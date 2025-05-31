@@ -1,5 +1,7 @@
 import logging
+from datetime import datetime
 from pathlib import Path
+from shutil import copytree
 from time import monotonic
 
 import typer
@@ -44,7 +46,10 @@ def main(log: str = "INFO", config_path: Path | None = None) -> None:
         # Save the time that the backup started, not the time that it ended, in case a backup takes
         # a non-insignificant amount of time.
         last_backup_time = monotonic()
-        logger.info("Changes detected!")
+
+        target = config.target / config.game_title / datetime.now(tz=None).isoformat()
+        logger.info("Changes detected, making backup at '%s'", target)
+        _ = copytree(config.source, target)
 
 
 if __name__ == "__main__":
